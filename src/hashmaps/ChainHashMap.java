@@ -1,14 +1,18 @@
+package hashmaps;
+
+import hashfunctions.HashFunction;
+import help.Stats;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
-public class ChainHashMap {
+public class ChainHashMap extends HashMap{
     protected Entry[] table;   //Array of Entry.
-    protected int M;  //Initial capacity of HashMap
     protected String fileName;
 
-    public ChainHashMap(int M, String filename) {
-        this.M = M;
+    public ChainHashMap(int M, HashFunction hash, String filename) {
+        super(M, hash);
         this.fileName = filename;
         table = new Entry[M];
     }
@@ -86,7 +90,7 @@ public class ChainHashMap {
 
     }
 
-    public Stats displayTotxt() {
+    public Stats displayToTXT() {
 
         Stats stats = new Stats(M);
 
@@ -142,8 +146,4 @@ public class ChainHashMap {
         System.out.println(stats);
     }
 
-    protected int hash(long k) {
-        k ^= (k >>> 20) ^ (k >>> 12);
-        return (int)((k ^ (k >>> 7) ^ (k >>> 4)) % M);
-    }
 }

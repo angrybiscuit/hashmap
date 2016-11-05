@@ -1,8 +1,9 @@
+package hashmaps;
 
 public class MyHashMap<K, V> {
 
     protected Entry<K,V>[] table;   //Array of Entry.
-    protected int M;  //Initial capacity of HashMap
+    protected int M;  //Initial capacity of hashmaps.HashMap
 
     static class Entry<K, V> {
         K key;

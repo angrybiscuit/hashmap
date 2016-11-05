@@ -1,15 +1,18 @@
+package hashmaps;
+
+import hashfunctions.HashFunction;
+import help.Stats;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
-public class InnerChainHashMap {
+public class InnerChainHashMap extends HashMap{
     protected Entry[] table;   //Array of Entry.
-    protected int M;  //Initial capacity of HashMap
     protected String fileName;
-    protected final byte DELETED = 0;
+    protected final long DELETED = 0x7fffffffffffffffL;
 
-    public InnerChainHashMap(int M, String filename) {
-        this.M = M;
+    public InnerChainHashMap(int M, HashFunction hashFunction, String filename) {
+        super(M, hashFunction);
         this.fileName = filename;
         table = new Entry[M];
     }
@@ -90,7 +93,7 @@ public class InnerChainHashMap {
 
     }
 
-    public Stats displayTotxt() {
+    public Stats displayToTXT() {
 
         Stats stats = new Stats(M);
 
@@ -122,8 +125,5 @@ public class InnerChainHashMap {
         System.out.println(stats);
     }
 
-    protected int hash(long k) {
-        k ^= (k >>> 20) ^ (k >>> 12);
-        return (int)((k ^ (k >>> 7) ^ (k >>> 4)) % M);
-    }
+
 }

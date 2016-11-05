@@ -1,3 +1,4 @@
+package help;
 
 public class Stats {
     public int maxChainLength;
@@ -6,7 +7,7 @@ public class Stats {
     public int emptyBuckets;
     public int notEmptyBuckets;
 
-    Stats(int M) {
+    public Stats(int M) {
         this.chainsLength = new int[M];
     }
 
@@ -23,7 +24,7 @@ public class Stats {
 
     @Override
     public String toString() {
-        return "Stats{" +
+        return "help.Stats{" +
                 "maxChainLength=" + maxChainLength +
                 ", avgChainLength=" + avgChainLength +
                 ", emptyBuckets=" + emptyBuckets +
