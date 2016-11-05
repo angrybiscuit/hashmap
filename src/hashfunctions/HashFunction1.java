@@ -6,6 +6,6 @@ public class HashFunction1 extends HashFunction {
 
     @Override
     public long hash(long k) {
-        return (int) (m * ((k * a) % 1));
+        return (long) (m * ((k * a) % 1));
     }
 }

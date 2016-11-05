@@ -65,24 +65,23 @@ public class ChainHashMap extends HashMap{
 
         int hash=hash(deleteKey);
 
-        if(table[hash] == null){
+        if (table[hash] == null) {
             return false;
-        }else{
+        } else {
             Entry previous = null;
             Entry current = table[hash];
 
-            while(current != null){ //we have reached last entry node of bucket.
-                if(current.key == deleteKey){
-                    if(previous==null){  //delete first entry node.
-                        table[hash]=table[hash].next;
+            while (current != null) { //we have reached last entry node of bucket.
+                if (current.key == deleteKey) {
+                    if (previous == null) {  //delete first entry node.
+                        table[hash] = table[hash].next;
                         return true;
-                    }
-                    else{
-                        previous.next=current.next;
+                    } else {
+                        previous.next = current.next;
                         return true;
                     }
                 }
-                previous=current;
+                previous = current;
                 current = current.next;
             }
             return false;
@@ -127,10 +126,10 @@ public class ChainHashMap extends HashMap{
 
         Stats stats = new Stats(M);
 
-        for(int i = 0; i < M; i++){
-            if(table[i] != null){
+        for (int i = 0; i < M; i++) {
+            if (table[i] != null) {
                 Entry entry = table[i];
-                while(entry != null){
+                while (entry != null) {
                     stats.chainsLength[i]++;
                     System.out.print("{"+entry.key+"}->");
                     entry=entry.next;
