@@ -10,17 +10,8 @@ import help.Stats;
 public class Program {
 
     public static void main(String[] args) {
-        //mapper();
-        //iMapper();
 
-        FileReader f = new FileReader();
-        long[] arr = f.readFile("numbers.txt");
-
-        HashMap map = new ChainHashMap(arr.length, new HashFunction1(), "bigtestHashmap.txt");
-        for (int i = 0; i < arr.length; i++) {
-            map.put(arr[i]);
-        }
-        System.out.println(map.displayToTXT());
+        mapTester("test.txt", "testHashmap.txt", new HashFunctionTest(), false);
 
     }
     public static void mapTester(String fileToRead, String fileToWrite, HashFunction hashFunction, boolean innerMap) {
