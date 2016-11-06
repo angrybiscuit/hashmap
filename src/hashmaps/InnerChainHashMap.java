@@ -9,11 +9,17 @@ import java.io.UnsupportedEncodingException;
 public class InnerChainHashMap extends HashMap{
     protected Entry[] table;   //Array of Entry.
     protected String fileName;
-    protected final long DELETED = 0x7fffffffffffffffL;
+    protected final long DELETED = Long.MAX_VALUE;
 
     public InnerChainHashMap(int M, HashFunction hashFunction, String filename) {
         super(M, hashFunction);
         this.fileName = filename;
+        table = new Entry[M];
+    }
+
+    public InnerChainHashMap(int M, HashFunction hashFunction) {
+        super(M, hashFunction);
+        this.fileName = "InnerChainHashMap.txt";
         table = new Entry[M];
     }
 
@@ -36,6 +42,10 @@ public class InnerChainHashMap extends HashMap{
                     ", next=" + next +
                     '}';
         }
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public void put(long newKey){

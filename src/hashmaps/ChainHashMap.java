@@ -17,6 +17,12 @@ public class ChainHashMap extends HashMap{
         table = new Entry[M];
     }
 
+    public ChainHashMap(int M, HashFunction hash) {
+        super(M, hash);
+        this.fileName = "ChainHashMap.txt";
+        table = new Entry[M];
+    }
+
     static class Entry {
         long key;
         Entry next;
@@ -25,6 +31,10 @@ public class ChainHashMap extends HashMap{
             this.key = key;
             this.next = next;
         }
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public void put(long newKey){

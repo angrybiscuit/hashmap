@@ -11,7 +11,7 @@ public abstract class HashMap {
         this.M = M;
         this.hash = hash;
     }
-
+    public abstract void setFileName(String fileName);
     public abstract void put(long newKey);
     public abstract boolean remove(long deleteKey);
     public abstract Stats displayToTXT();
