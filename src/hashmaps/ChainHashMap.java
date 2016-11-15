@@ -1,6 +1,7 @@
 package hashmaps;
 
 import hashfunctions.HashFunction;
+import help.Returner;
 import help.Stats;
 
 import java.io.FileNotFoundException;
@@ -37,31 +38,30 @@ public class ChainHashMap extends HashMap{
         this.fileName = fileName;
     }
 
-    public void put(long newKey){
-
+    public Returner put(long newKey) {
+        Returner r = new Returner();
+        r.success = true;
         //calculate index of key.
         int hash=hash(newKey);
         //create new entry.
         Entry newEntry = new Entry(newKey, null);
 
         //if table location does not contain any entry, store entry there.
-        if(table[hash] == null){
+        if (table[hash] == null) {
             table[hash] = newEntry;
-        }else{
+        } else {
             Entry previous = null;
             Entry current = table[hash];
 
-            while(current != null){ //we have reached last entry of bucket.
-                if(current.key == newKey){
-                    if(previous == null){  //node has to be insert on first of bucket.
+            while (current != null) { //we have reached last entry of bucket.
+                r.operationCount++;
+                if (current.key == newKey) {
+                    if (previous == null) {  //node has to be insert on first of bucket.
                         newEntry.next = current.next;
                         table[hash] = newEntry;
-                        return;
-                    }
-                    else{
+                    } else {
                         newEntry.next = current.next;
                         previous.next = newEntry;
-                        return;
                     }
                 }
                 previous = current;
@@ -69,32 +69,54 @@ public class ChainHashMap extends HashMap{
             }
             previous.next = newEntry;
         }
+        return r;
     }
 
-    public boolean remove(long deleteKey) {
-
-        int hash=hash(deleteKey);
+    public Returner get(long key) {
+        int hash = hash(key);
+        Returner returner = new Returner();
 
         if (table[hash] == null) {
-            return false;
+            return returner;
+        } else {
+            Entry temp = table[hash];
+            while (temp != null) {
+                returner.operationCount++;
+                if (temp.key == key) {
+                    returner.success = true;
+                    return returner;
+                }
+                temp = temp.next; //return value corresponding to key.
+            }
+            return returner;   //returns null if key is not found.
+        }
+    }
+
+    public Returner remove(long deleteKey) { //todo implement Returner to remove
+        Returner r = new Returner();
+        int hash = hash(deleteKey);
+
+        if (table[hash] == null) {
+            return r;
         } else {
             Entry previous = null;
             Entry current = table[hash];
 
             while (current != null) { //we have reached last entry node of bucket.
+                r.operationCount++;
                 if (current.key == deleteKey) {
+                    r.success = true;
                     if (previous == null) {  //delete first entry node.
                         table[hash] = table[hash].next;
-                        return true;
                     } else {
                         previous.next = current.next;
-                        return true;
                     }
+                    return r;
                 }
                 previous = current;
                 current = current.next;
             }
-            return false;
+            return r;
         }
 
     }
@@ -124,7 +146,7 @@ public class ChainHashMap extends HashMap{
                 writer.println();
             } else {
                 stats.emptyBuckets++;
-                writer.println("{null}->{null}");
+                writer.println("{null}");
             }
         }
         stats.calc();
@@ -148,7 +170,7 @@ public class ChainHashMap extends HashMap{
                 System.out.println();
             } else {
                 stats.emptyBuckets++;
-                System.out.println("{null}->{null}");
+                System.out.println("{null}");
             }
         }
         stats.calc();
