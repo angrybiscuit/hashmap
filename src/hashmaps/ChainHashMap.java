@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 public class ChainHashMap extends HashMap{
     protected Entry[] table;   //Array of Entry.
     protected String fileName;
+    public int override;
 
     public ChainHashMap(int M, HashFunction hash, String filename) {
         super(M, hash);
@@ -70,6 +71,38 @@ public class ChainHashMap extends HashMap{
             previous.next = newEntry;
         }
         return r;
+    }
+
+    public void add(long newKey) {
+        //calculate index of key.
+        int hash=hash(newKey);
+        //create new entry.
+        Entry newEntry = new Entry(newKey, null);
+
+        //if table location does not contain any entry, store entry there.
+        if (table[hash] == null) {
+            table[hash] = newEntry;
+        } else {
+            Entry previous = null;
+            Entry current = table[hash];
+            while (current != null) { //we have reached last entry of bucket.
+                if (current.key == newKey) {
+                    override++;
+                    if (previous == null) {  //node has to be insert on first of bucket.
+                        newEntry.next = current.next;
+                        table[hash] = newEntry;
+                        return;
+                    } else {
+                        newEntry.next = current.next;
+                        previous.next = newEntry;
+                        return;
+                    }
+                }
+                previous = current;
+                current = current.next;
+            }
+            previous.next = newEntry;
+        }
     }
 
     public Returner get(long key) {
@@ -136,7 +169,7 @@ public class ChainHashMap extends HashMap{
 
         for(int i = 0; i < M; i++){
             if(table[i] != null){
-                Entry entry=table[i];
+                Entry entry = table[i];
                 while(entry != null){
                     stats.chainsLength[i]++;
                     writer.print("{"+entry.key+"}->");

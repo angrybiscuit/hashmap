@@ -50,6 +50,42 @@ public class InnerChainHashMap extends HashMap{
         this.fileName = fileName;
     }
 
+    public void add(long newKey){
+
+        //calculate index of key.
+        int hash = hash(newKey);
+        //create new entry.
+
+        //if table location does not contain any entry, store entry there.
+        if (table[hash] == null || table[hash].key == DELETED) {
+            table[hash] = new Entry(newKey, M, hash);
+        } else {
+            Entry current = table[hash];
+
+            while (current.next != M) { //we have reached last entry of chain.
+                //System.out.print("#");
+                if (current.key == newKey) { // override
+                    table[current.index] = new Entry(newKey, current.next, current.index);
+                    //System.out.println();
+                    return;
+                } else if (current.key == DELETED) { // found deleted one so insert there
+                    current.key = newKey;
+                    //System.out.println();
+                    return;
+                }
+                current = table[current.next];
+            }
+
+            for (int i = M-1; i > 0; i--) { //find a place to put new key from end
+                if (table[i] == null) {
+                    table[i] = new Entry(newKey, M, i);
+                    current.next = i;
+                    return;
+                }
+            }
+        }
+    }
+
     public Returner put(long newKey){
 
         Returner r = new Returner();
@@ -143,7 +179,7 @@ public class InnerChainHashMap extends HashMap{
     private String dispEntry(Entry e) {
         if (e == null) return "{null}";
 
-        String s = "{key=";
+        String s = "{index= "+e.index+", key=";
         if (e.key != DELETED) {
             s += e.key+", next=";
         } else {

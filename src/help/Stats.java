@@ -1,6 +1,5 @@
 package help;
 
-import java.util.Arrays;
 
 public class Stats {
     public int maxChainLength;
@@ -15,14 +14,13 @@ public class Stats {
     }
 
     public void calc() {
-        System.out.println(Arrays.toString(chainsLength));
         for (int i : chainsLength) {
             avgChainLength += i;
             if (i > maxChainLength) {
                 maxChainLength = i;
             }
             if (i > 1) {
-                collisionCount += i;
+                collisionCount += (i - 1);
             }
         }
         avgChainLength /= chainsLength.length;

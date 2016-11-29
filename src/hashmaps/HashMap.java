@@ -15,6 +15,7 @@ public abstract class HashMap {
     }
     public abstract void setFileName(String fileName);
     public abstract Returner put(long newKey);
+    public abstract void add(long newKey);
     public abstract Returner get(long key);
     public abstract Returner remove(long deleteKey);
     public abstract Stats displayToTXT();
