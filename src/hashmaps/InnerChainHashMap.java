@@ -14,15 +14,13 @@ public class InnerChainHashMap extends HashMap{
     protected final long DELETED = Long.MAX_VALUE;
 
     public InnerChainHashMap(int M, HashFunction hashFunction, String filename) {
-        super(M, hashFunction);
+        super((int)(M*1.2), hashFunction);
         this.fileName = filename;
-        table = new Entry[M];
+        table = new Entry[(int)(M*1.2)];
     }
 
     public InnerChainHashMap(int M, HashFunction hashFunction) {
-        super(M, hashFunction);
-        this.fileName = "InnerChainHashMap.txt";
-        table = new Entry[M];
+        this(M, hashFunction, "InnerChainHashMap.txt");
     }
 
     static class Entry {
