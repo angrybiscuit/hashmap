@@ -4,7 +4,7 @@ package help;
 public class Stats {
     public int maxChainLength;
     public int[] chainsLength;
-    public int avgChainLength;
+    public double avgChainLength;
     public int emptyBuckets;
     public int notEmptyBuckets;
     public int collisionCount;
@@ -14,6 +14,7 @@ public class Stats {
     }
 
     public void calc() {
+        int chainCount = 0;
         for (int i : chainsLength) {
             avgChainLength += i;
             if (i > maxChainLength) {
@@ -21,9 +22,10 @@ public class Stats {
             }
             if (i > 1) {
                 collisionCount += (i - 1);
+                chainCount++;
             }
         }
-        avgChainLength /= chainsLength.length;
+        avgChainLength /= chainCount;
         notEmptyBuckets = chainsLength.length - emptyBuckets;
     }
 
